@@ -185,7 +185,12 @@ add_action( 'woocommerce_process_product_meta_simple', 'wte_save_proddata_custom
 function wte_material_func( $atts ) {
 	global $post;
 
-	return get_post_meta($post->ID,'_wte_material')[0];
+	$value = get_post_meta($post->ID,'_wte_material')[0];
+
+	if ( $value == '' ) {
+		return '-';
+	}
+	return $value;
 }
 add_shortcode( 'wte_material', 'wte_material_func' );
 
@@ -197,7 +202,12 @@ add_shortcode( 'wte_material', 'wte_material_func' );
 function wte_surface_finish_func( $atts ) {
 	global $post;
 
-	return get_post_meta($post->ID,'_wte_surface_finish')[0];
+	$value = get_post_meta($post->ID,'_wte_surface_finish')[0];
+
+	if ( $value == '' ) {
+		return '-';
+	}
+	return $value;
 }
 add_shortcode( 'wte_surface_finish', 'wte_surface_finish_func' );
 
@@ -218,6 +228,9 @@ function wte_weight_in_air_func( $atts, $content = null, $tag = '' ) {
 
 	$value = get_post_meta($post->ID,'_wte_weight_in_air_grams')[0];
 
+	if ( $value == '' ) {
+		return '-';
+	}
 	if ( $atts['units'] == 'g' ) {
 		return sprintf('%d g', $value);	
 	}
@@ -263,6 +276,9 @@ function wte_depth_rating_func( $atts, $content = null, $tag = '' ) {
 		$notes = '';
 	}
 
+	if ( $value == '' ) {
+		return '-';
+	}
 	if ( $atts['units'] == 'm' ) {
 		return sprintf('%d m %s', $value, $notes);	
 	}
