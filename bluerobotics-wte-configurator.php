@@ -18,9 +18,13 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
-// First Register the Tab by hooking into the 'woocommerce_product_data_tabs' filter
-add_filter( 'woocommerce_product_data_tabs', 'add_my_custom_product_data_tab', 10, 1 );
-function add_my_custom_product_data_tab( $product_data_tabs ) {
+/**
+ * Add a custom tab for the WTE configurator.
+ *
+ * @since 1.0.0
+*/
+add_filter( 'woocommerce_product_data_tabs', 'add_wte_configurator_tab', 10, 1 );
+function add_wte_configurator_tab( $product_data_tabs ) {
 	global $post;
 	$terms = wp_get_post_terms( $post->ID, 'product_cat' );
 	foreach ( $terms as $term ) $categories[] = $term->slug;
@@ -40,9 +44,12 @@ function add_my_custom_product_data_tab( $product_data_tabs ) {
 	return $product_data_tabs;
 }
 
-// functions you can call to output text boxes, select boxes, etc.
+/**
+ * Set up tab data fields.
+ *
+ * @since 1.0.0
+*/
 add_action('woocommerce_product_data_panels', 'wte_product_data_fields');
-
 function wte_product_data_fields() {
     global $post;
 
@@ -125,7 +132,11 @@ function wte_product_data_fields() {
     </div><?php
 }
 
-/** Hook callback function to save custom fields information */
+/**
+ * Save WTE fields to post meta data.
+ *
+ * @since 1.0.0
+*/
 function wte_save_proddata_custom_fields($post_id) {
     // Save fields
     $wte_material = $_POST['_wte_material'];
@@ -160,7 +171,11 @@ function wte_save_proddata_custom_fields($post_id) {
 }
 add_action( 'woocommerce_process_product_meta_simple', 'wte_save_proddata_custom_fields'  );
 
-// Add shortcodes
+/**
+ * Add a shortcode to return material field.
+ *
+ * @since 1.0.0
+*/
 function wte_material_func( $atts ) {
 	global $post;
 
@@ -168,6 +183,11 @@ function wte_material_func( $atts ) {
 }
 add_shortcode( 'wte_material', 'wte_material_func' );
 
+/**
+ * Add a shortbode to return surface finish.
+ *
+ * @since 1.0.0
+*/
 function wte_surface_finish_func( $atts ) {
 	global $post;
 
@@ -175,6 +195,11 @@ function wte_surface_finish_func( $atts ) {
 }
 add_shortcode( 'wte_surface_finish', 'wte_surface_finish_func' );
 
+/**
+ * Add a shortcode to return weight in air with units.
+ *
+ * @since 1.0.0
+*/
 function wte_weight_in_air_func( $atts, $content = null, $tag = '' ) {
 	global $post;
 
@@ -199,6 +224,11 @@ function wte_weight_in_air_func( $atts, $content = null, $tag = '' ) {
 }
 add_shortcode( 'wte_weight_in_air', 'wte_weight_in_air_func' );
 
+/**
+ * Add a shortcode to return depth rating.
+ *
+ * @since 1.0.0
+*/
 function wte_depth_rating_func( $atts, $content = null, $tag = '' ) {
 	global $post;
 
