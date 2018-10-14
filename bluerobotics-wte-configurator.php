@@ -31,6 +31,12 @@ function add_wte_configurator_tab( $product_data_tabs ) {
 
 	$wte_category_slugs = array('2-series','3-series','4-series','6-series','8-series','penetrators');
 
+	// Do not show for composite products, i.e. watertight enclosure configurators
+	$product = wc_get_product( $post->ID );
+	if ( $product->is_type('composite') ) {
+		return $product_data_tabs; // bail early
+	}
+
 	foreach ( $wte_category_slugs as $slug ) {
 		if ( in_array( $slug, $categories ) ) {
 		    $product_data_tabs['wte-tab'] = array(
