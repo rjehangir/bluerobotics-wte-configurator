@@ -128,6 +128,7 @@ function wte_product_data_fields() {
       'label' => __( 'Depth Rating Type', 'woocommerce' ),
       'options' => array(
          'none' => __( 'No depth rating', 'woocommerce' ),
+         'tbd' => __( 'To be determined', 'woocommerce' ),
          'theoretical' => __( 'Theoretical', 'woocommerce' ),
          'empirical' => __( 'Empirical', 'woocommerce' ),
       )
@@ -265,6 +266,10 @@ function wte_depth_rating_func( $atts, $content = null, $tag = '' ) {
 	if ( $type == 'none' ) {
 		$notes = '';
 	}
+  if ( $type == 'tbd' ) {
+    $notes = '';
+    return 'TBD';
+  }
 	if ( $type == 'theorectical' ) {
 		$notes = ' ';
 	}
@@ -276,6 +281,9 @@ function wte_depth_rating_func( $atts, $content = null, $tag = '' ) {
 		$notes = '';
 	}
 
+  if ( $value <= 0 ) {
+    return '-';
+  }
 	if ( $value == '' ) {
 		return '-';
 	}
